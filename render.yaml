@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: novelku
+    runtime: node
+    region: singapore
+    plan: free
+    buildCommand: npm run build
+    startCommand: node src/app.js
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: novelku-db
+          property: connectionString
+      - key: UPLOAD_MAX_SIZE_MB
+        value: 5
+
+databases:
+  - name: novelku-db
+    databaseName: novelku_db
+    user: novelku_user
+    region: singapore
+    plan: free
+    

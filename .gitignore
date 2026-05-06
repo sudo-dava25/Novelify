@@ -1,0 +1,6 @@
+node_modules/
+.env
+public/img/covers/*
+!public/img/covers/.gitkeep
+*.log
+.DS_Store

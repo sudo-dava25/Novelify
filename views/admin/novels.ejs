@@ -36,10 +36,16 @@
                 <%= n.is_published ? 'Unpublish' : 'Publish' %>
               </button>
             </form>
-          </td>
+           </td>
           <td>
             <a href="/admin/novels/<%= n.id %>/chapters" class="btn btn--sm btn--ghost">Chapters</a>
-          </td>
+            <form action="/admin/novels/<%= n.id %>/delete" method="POST" style="display:inline">
+              <button type="submit" class="btn btn--sm btn--danger"
+                      data-confirm="Delete '<%= n.title %>'? This cannot be undone!">
+                Delete
+              </button>
+            </form>
+           </td>
         </tr>
         <% }) %>
       </tbody>

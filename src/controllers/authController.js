@@ -3,7 +3,7 @@ const { query }      = require('../config/database');
 const { validationResult } = require('express-validator');
 
 const showRegister = (req, res) => {
-  res.render('auth/register', { title: 'Create Account', errors: [] });
+  res.render('auth/register', { title: 'Create Account', errors: [], old: null });
 };
 
 const register = async (req, res) => {
@@ -52,7 +52,7 @@ const register = async (req, res) => {
 };
 
 const showLogin = (req, res) => {
-  res.render('auth/login', { title: 'Sign In', errors: [] });
+  res.render('auth/login', { title: 'Sign In', errors: [], old: null });
 };
 
 const login = async (req, res) => {

@@ -44,6 +44,7 @@ const newNovel = async (req, res) => {
     novel: null,
     genres: genres.rows,
     errors: [],
+    old: null,
   });
 };
 

@@ -205,8 +205,43 @@ const toggleUserActive = async (req, res) => {
   return res.redirect('/admin/users');
 };
 
+const deleteNovel = async (req, res) => {
+  const { id } = req.params;
+  const client = await require('../config/database').pool.connect();
+  try {
+    const novelRes = await client.query(
+      'SELECT cover_image FROM novels WHERE id = $1', [id]
+    );
+
+    if (!novelRes.rows.length) {
+      req.flash('error', 'Novel not found.');
+      return res.redirect('/admin/novels');
+    }
+
+    await client.query('BEGIN');
+    await client.query('DELETE FROM novels WHERE id = $1', [id]);
+    await client.query('COMMIT');
+
+    const cover = novelRes.rows[0].cover_image;
+    if (cover) {
+      const coverPath = path.join(__dirname, '../../public', cover);
+      fs.unlink(coverPath, () => {});
+    }
+
+    req.flash('success', 'Novel deleted successfully.');
+  } catch (err) {
+    await client.query('ROLLBACK');
+    console.error('[admin.deleteNovel]', err);
+    req.flash('error', 'Failed to delete novel.');
+  } finally {
+    client.release();
+  }
+  return res.redirect('/admin/novels');
+};
+
 module.exports = {
   dashboard, listNovels, newNovel, createNovel, togglePublish,
+  deleteNovel,
   listChapters, newChapter, createChapter,
   listUsers, toggleUserActive,
 };

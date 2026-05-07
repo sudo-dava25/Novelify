@@ -31,6 +31,7 @@ admin.get ('/novels',                        adminCtrl.listNovels);
 admin.get ('/novels/new',                    adminCtrl.newNovel);
 admin.post('/novels',     upload.single('cover'), adminCtrl.createNovel);
 admin.post('/novels/:id/toggle-publish',     adminCtrl.togglePublish);
+admin.post('/novels/:id/delete', adminCtrl.deleteNovel);
 admin.get ('/novels/:novelId/chapters',      adminCtrl.listChapters);
 admin.get ('/novels/:novelId/chapters/new',  adminCtrl.newChapter);
 admin.post('/novels/:novelId/chapters',      adminCtrl.createChapter);

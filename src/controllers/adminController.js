@@ -157,6 +157,7 @@ const newChapter = async (req, res) => {
     chapter: null,
     nextNumber,
     errors: [],
+    old: null,
   });
 };
 

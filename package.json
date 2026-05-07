@@ -1,9 +1,5 @@
 {
-<<<<<<< HEAD
-  "name": "novelku",
-=======
-  "name": "novelify",
->>>>>>> 18ef045 (Initial Commit)
+  "name": "Novelify",
   "version": "1.0.0",
   "description": "Online novel reading platform",
   "main": "src/app.js",
@@ -14,8 +10,7 @@
     "start": "node src/app.js",
     "dev": "nodemon src/app.js",
     "db:migrate": "node src/config/migrate.js",
-    "db:seed": "node src/config/seed.js",
-    "build": "npm install && node src/config/migrate.js && node src/config/seed.js"
+    "db:seed": "node src/config/seed.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

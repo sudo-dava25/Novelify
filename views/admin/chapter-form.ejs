@@ -1,0 +1,41 @@
+<div class="admin-layout">
+  <aside class="admin-sidebar">
+    <div style="font-family:var(--ff-display); font-size:1.1rem; color:#fff; padding:0.5rem 0.85rem; margin-bottom:0.5rem">Admin Panel</div>
+    <a href="/admin">Dashboard</a>
+    <a href="/admin/novels" class="active">Novels</a>
+    <a href="/admin/users">Users</a>
+    <a href="/" style="margin-top:auto">← Back to Site</a>
+  </aside>
+  <div class="admin-content">
+    <div style="margin-bottom:1.5rem">
+      <a href="/admin/novels/<%= novel.id %>/chapters" style="font-family:var(--ff-ui); font-size:0.8rem; color:var(--ink-muted)">← Back</a>
+      <h2 style="margin-top:0.25rem">Add Chapter – <%= novel.title %></h2>
+    </div>
+
+    <form action="/admin/novels/<%= novel.id %>/chapters" method="POST" style="max-width:720px">
+      <div style="display:grid; grid-template-columns:120px 1fr; gap:1rem">
+        <div class="form-group">
+          <label>Chapter No. *</label>
+          <input type="number" name="chapter_number" value="<%= nextNumber %>" required min="1">
+        </div>
+        <div class="form-group">
+          <label>Chapter Title *</label>
+          <input type="text" name="title" placeholder="e.g. The First Encounter" required maxlength="255">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Content *</label>
+        <textarea name="content" rows="20" required placeholder="Write the chapter content here…"></textarea>
+      </div>
+      <div class="form-group">
+        <label style="display:flex; align-items:center; gap:0.5rem; font-family:var(--ff-ui); font-size:0.875rem; cursor:pointer">
+          <input type="checkbox" name="is_published" style="width:auto"> Publish immediately
+        </label>
+      </div>
+      <div style="display:flex; gap:1rem">
+        <button type="submit" class="btn btn--primary btn--md">Save Chapter</button>
+        <a href="/admin/novels/<%= novel.id %>/chapters" class="btn btn--ghost btn--md">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>

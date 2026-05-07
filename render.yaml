@@ -1,6 +1,10 @@
 services:
   - type: web
+<<<<<<< HEAD
     name: novelku
+=======
+    name: novelify
+>>>>>>> 18ef045 (Initial Commit)
     runtime: node
     region: singapore
     plan: free
@@ -14,15 +18,27 @@ services:
         generateValue: true
       - key: DATABASE_URL
         fromDatabase:
+<<<<<<< HEAD
           name: novelku-db
+=======
+          name: novelify-db
+>>>>>>> 18ef045 (Initial Commit)
           property: connectionString
       - key: UPLOAD_MAX_SIZE_MB
         value: 5
 
 databases:
+<<<<<<< HEAD
   - name: novelku-db
     databaseName: novelku_db
     user: novelku_user
     region: singapore
     plan: free
     
+=======
+  - name: novelify-db
+    databaseName: novelify_db
+    user: novelify_user
+    region: singapore
+    plan: free
+>>>>>>> 18ef045 (Initial Commit)

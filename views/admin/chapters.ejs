@@ -1,0 +1,38 @@
+<div class="admin-layout">
+  <aside class="admin-sidebar">
+    <div style="font-family:var(--ff-display); font-size:1.1rem; color:#fff; padding:0.5rem 0.85rem; margin-bottom:0.5rem">Admin Panel</div>
+    <a href="/admin">Dashboard</a>
+    <a href="/admin/novels" class="active">Novels</a>
+    <a href="/admin/users">Users</a>
+    <a href="/" style="margin-top:auto">← Back to Site</a>
+  </aside>
+  <div class="admin-content">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem">
+      <div>
+        <a href="/admin/novels" style="font-family:var(--ff-ui); font-size:0.8rem; color:var(--ink-muted)">← Back</a>
+        <h2 style="margin-top:0.25rem"><%= novel.title %></h2>
+      </div>
+      <a href="/admin/novels/<%= novel.id %>/chapters/new" class="btn btn--primary btn--md">+ Add Chapter</a>
+    </div>
+
+    <table class="table">
+      <thead>
+        <tr><th>Chapter</th><th>Title</th><th>Words</th><th>Status</th></tr>
+      </thead>
+      <tbody>
+        <% chapters.forEach(c => { %>
+        <tr>
+          <td style="color:var(--ink-muted)"><%= c.chapter_number %></td>
+          <td><%= c.title %></td>
+          <td style="color:var(--ink-muted)"><%= c.word_count.toLocaleString('en') %></td>
+          <td>
+            <span class="badge <%= c.is_published ? 'badge--completed' : 'badge--hiatus' %>">
+              <%= c.is_published ? 'Published' : 'Draft' %>
+            </span>
+          </td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>

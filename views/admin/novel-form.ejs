@@ -1,0 +1,60 @@
+<div class="admin-layout">
+  <aside class="admin-sidebar">
+    <div style="font-family:var(--ff-display); font-size:1.1rem; color:#fff; padding:0.5rem 0.85rem; margin-bottom:0.5rem">Admin Panel</div>
+    <a href="/admin">Dashboard</a>
+    <a href="/admin/novels" class="active">Novels</a>
+    <a href="/admin/users">Users</a>
+    <a href="/" style="margin-top:auto">← Back to Site</a>
+  </aside>
+  <div class="admin-content">
+    <h2 style="margin-bottom:1.5rem"><%= novel ? 'Edit Novel' : 'Add Novel' %></h2>
+
+    <% if (errors.length) { %>
+      <ul class="errors-list"><% errors.forEach(e => { %><li><%= e.msg %></li><% }) %></ul>
+    <% } %>
+
+    <form action="/admin/novels" method="POST" enctype="multipart/form-data"
+          style="max-width:640px">
+      <div class="form-group">
+        <label>Novel Title *</label>
+        <input type="text" name="title" value="<%= (old||novel||{}).title||'' %>" required maxlength="255">
+      </div>
+      <div class="form-group">
+        <label>Synopsis *</label>
+        <textarea name="synopsis" rows="6" required><%= (old||novel||{}).synopsis||'' %></textarea>
+      </div>
+      <div class="form-group">
+        <label>Cover Image (JPG/PNG/WebP, max 5MB)</label>
+        <input type="file" name="cover" accept="image/jpeg,image/png,image/webp">
+      </div>
+      <div class="form-group">
+        <label>Status</label>
+        <select name="status">
+          <option value="ongoing"   <%= (old||novel||{}).status==='ongoing'   ? 'selected':'' %>>Ongoing</option>
+          <option value="completed" <%= (old||novel||{}).status==='completed' ? 'selected':'' %>>Completed</option>
+          <option value="hiatus"    <%= (old||novel||{}).status==='hiatus'    ? 'selected':'' %>>Hiatus</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Genres (select multiple)</label>
+        <div style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:0.25rem">
+          <% genres.forEach(g => { %>
+            <label style="display:flex; align-items:center; gap:0.35rem; font-family:var(--ff-ui); font-size:0.875rem; cursor:pointer">
+              <input type="checkbox" name="genre_ids" value="<%= g.id %>"
+                style="width:auto"> <%= g.name %>
+            </label>
+          <% }) %>
+        </div>
+      </div>
+      <div class="form-group">
+        <label style="display:flex; align-items:center; gap:0.5rem; font-family:var(--ff-ui); font-size:0.875rem; cursor:pointer">
+          <input type="checkbox" name="is_published" style="width:auto"> Publish immediately
+        </label>
+      </div>
+      <div style="display:flex; gap:1rem">
+        <button type="submit" class="btn btn--primary btn--md">Save</button>
+        <a href="/admin/novels" class="btn btn--ghost btn--md">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>

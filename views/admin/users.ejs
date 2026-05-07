@@ -1,0 +1,39 @@
+<div class="admin-layout">
+  <aside class="admin-sidebar">
+    <div style="font-family:var(--ff-display); font-size:1.1rem; color:#fff; padding:0.5rem 0.85rem; margin-bottom:0.5rem">Admin Panel</div>
+    <a href="/admin">Dashboard</a>
+    <a href="/admin/novels">Novels</a>
+    <a href="/admin/users" class="active">Users</a>
+    <a href="/" style="margin-top:auto">← Back to Site</a>
+  </aside>
+  <div class="admin-content">
+    <h2 style="margin-bottom:1.5rem">Manage Users</h2>
+    <table class="table">
+      <thead>
+        <tr><th>Username</th><th>Email</th><th>Role</th><th>Status</th><th>Actions</th></tr>
+      </thead>
+      <tbody>
+        <% users.forEach(u => { %>
+        <tr>
+          <td><strong><%= u.username %></strong></td>
+          <td style="color:var(--ink-muted)"><%= u.email %></td>
+          <td><span class="badge badge--<%= u.role==='admin'?'completed':u.role==='author'?'ongoing':'hiatus' %>"><%= u.role %></span></td>
+          <td><span class="badge <%= u.is_active ? 'badge--completed' : 'badge--hiatus' %>"><%= u.is_active ? 'Active' : 'Inactive' %></span></td>
+          <td>
+            <% if (currentUser.id !== u.id) { %>
+              <form action="/admin/users/<%= u.id %>/toggle-active" method="POST" style="display:inline">
+                <button type="submit" class="btn btn--sm <%= u.is_active ? 'btn--danger' : 'btn--secondary' %>"
+                        data-confirm="<%= u.is_active ? 'Deactivate this user?' : 'Activate this user?' %>">
+                  <%= u.is_active ? 'Deactivate' : 'Activate' %>
+                </button>
+              </form>
+            <% } else { %>
+              <span style="font-family:var(--ff-ui); font-size:0.8rem; color:var(--ink-muted)">Your Account</span>
+            <% } %>
+          </td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>

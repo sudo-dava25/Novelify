@@ -1,0 +1,24 @@
+<div class="auth-page">
+  <div class="auth-card">
+    <h1>Sign In</h1>
+    <p>Don't have an account? <a href="/auth/register">Register now</a></p>
+
+    <% if (errors.length) { %>
+      <ul class="errors-list">
+        <% errors.forEach(e => { %><li><%= e.msg %></li><% }) %>
+      </ul>
+    <% } %>
+
+    <form action="/auth/login" method="POST">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" value="<%= typeof old !== 'undefined' ? old.email : '' %>" required autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required autocomplete="current-password">
+      </div>
+      <button type="submit" class="btn btn--primary btn--lg" style="width:100%">Sign In</button>
+    </form>
+  </div>
+</div>

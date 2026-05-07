@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
   "name": "novelku",
+=======
+  "name": "novelify",
+>>>>>>> 18ef045 (Initial Commit)
   "version": "1.0.0",
   "description": "Online novel reading platform",
   "main": "src/app.js",

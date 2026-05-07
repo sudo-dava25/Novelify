@@ -1,0 +1,55 @@
+<div class="reader">
+  <div class="reader__nav">
+    <a href="/novels/<%= chapter.novel_slug %>" class="btn btn--ghost btn--sm">← Back</a>
+    <span style="font-family:var(--ff-ui); font-size:0.8rem; color:var(--ink-muted)">Chapter <%= chapter.chapter_number %></span>
+    <span></span>
+  </div>
+
+  <div class="reader__title">
+    <h1 style="font-size:1.4rem"><%= chapter.novel_title %></h1>
+    <p class="reader__chapter-title">Chapter <%= chapter.chapter_number %> – <%= chapter.title %></p>
+  </div>
+
+  <div class="reader__content"><%- chapter.content.replace(/\n/g, '<br>') %></div>
+
+  <div style="display:flex; justify-content:space-between; margin-top:2.5rem; gap:1rem">
+    <% if (prevChapter) { %>
+      <a href="/chapters/<%= prevChapter.id %>" class="btn btn--secondary btn--md">
+        ← Chapter <%= prevChapter.chapter_number %>
+      </a>
+    <% } else { %><span></span><% } %>
+    <% if (nextChapter) { %>
+      <a href="/chapters/<%= nextChapter.id %>" class="btn btn--primary btn--md">
+        Chapter <%= nextChapter.chapter_number %> →
+      </a>
+    <% } else { %><span></span><% } %>
+  </div>
+
+  <div class="comments">
+    <div class="section-heading">Comments (<%= comments.length %>)</div>
+
+    <% if (currentUser) { %>
+      <form action="/comments" method="POST" style="margin-bottom:1.5rem">
+        <input type="hidden" name="chapterId" value="<%= chapter.id %>">
+        <div class="form-group">
+          <textarea name="content" placeholder="Write a comment…" rows="3" required></textarea>
+        </div>
+        <button type="submit" class="btn btn--primary btn--md">Post Comment</button>
+      </form>
+    <% } else { %>
+      <p style="font-family:var(--ff-ui); font-size:0.875rem; color:var(--ink-muted); margin-bottom:1.5rem">
+        <a href="/auth/login">Sign in</a> to leave a comment.
+      </p>
+    <% } %>
+
+    <% comments.forEach(c => { %>
+      <div class="comment">
+        <div class="comment__header">
+          <span class="comment__author"><%= c.username %></span>
+          <span><%= new Date(c.created_at).toLocaleDateString('en-US', { day:'numeric', month:'short', year:'numeric' }) %></span>
+        </div>
+        <p><%= c.content %></p>
+      </div>
+    <% }) %>
+  </div>
+</div>

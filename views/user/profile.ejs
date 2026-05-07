@@ -1,0 +1,50 @@
+<div class="container profile-section">
+  <h1 style="margin-bottom:0.25rem">My Profile</h1>
+  <p style="font-family:var(--ff-ui); color:var(--ink-muted)"><%= currentUser.username %> · <%= currentUser.email %></p>
+
+  <div class="profile-grid" style="margin-top:2rem">
+    <div>
+      <div class="section-heading">📚 Bookmarks (<%= bookmarks.length %>)</div>
+      <% if (bookmarks.length === 0) { %>
+        <p style="font-family:var(--ff-ui); color:var(--ink-muted)">No saved novels yet.</p>
+      <% } else { %>
+        <% bookmarks.forEach(b => { %>
+          <a href="/novels/<%= b.slug %>" style="text-decoration:none">
+            <div style="display:flex; gap:0.75rem; align-items:center; padding:0.75rem; border-radius:var(--radius); border:1px solid var(--border); margin-bottom:0.5rem; background:#fff; transition:background 0.15s"
+                 onmouseover="this.style.background='var(--paper-2)'" onmouseout="this.style.background='#fff'">
+              <% if (b.cover_image) { %>
+                <img src="<%= b.cover_image %>" alt="" style="width:40px; height:60px; object-fit:cover; border-radius:4px; flex-shrink:0">
+              <% } else { %>
+                <div style="width:40px; height:60px; background:var(--paper-3); border-radius:4px; display:flex; align-items:center; justify-content:center; flex-shrink:0">📖</div>
+              <% } %>
+              <div>
+                <div style="font-family:var(--ff-display); font-size:0.9rem; font-weight:600; color:var(--ink)"><%= b.title %></div>
+                <div style="font-family:var(--ff-ui); font-size:0.78rem; color:var(--ink-muted)">by <%= b.author_name %></div>
+                <span class="badge badge--<%= b.status %>" style="margin-top:0.25rem"><%= b.status %></span>
+              </div>
+            </div>
+          </a>
+        <% }) %>
+      <% } %>
+    </div>
+
+    <div>
+      <div class="section-heading">📖 Reading History (<%= progress.length %>)</div>
+      <% if (progress.length === 0) { %>
+        <p style="font-family:var(--ff-ui); color:var(--ink-muted)">No reading history yet.</p>
+      <% } else { %>
+        <% progress.forEach(p => { %>
+          <div style="padding:0.75rem; border-radius:var(--radius); border:1px solid var(--border); margin-bottom:0.5rem; background:#fff">
+            <div style="font-family:var(--ff-display); font-size:0.9rem; font-weight:600">
+              <a href="/novels/<%= p.slug %>" style="color:var(--ink)"><%= p.title %></a>
+            </div>
+            <div style="font-family:var(--ff-ui); font-size:0.8rem; color:var(--ink-muted); margin:0.25rem 0">
+              Last read: Chapter <%= p.last_chapter %> – <%= p.last_chapter_title %>
+            </div>
+            <a href="/chapters/<%= p.last_chapter_id %>" class="btn btn--secondary btn--sm">Continue Reading</a>
+          </div>
+        <% }) %>
+      <% } %>
+    </div>
+  </div>
+</div>

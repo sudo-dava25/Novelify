@@ -1,0 +1,60 @@
+<% const layout = 'layouts/main' %>
+<div class="container" style="padding-top:2rem; padding-bottom:3rem">
+  <h1>Explore Novels</h1>
+
+  <form class="filters" method="GET" action="/">
+    <input type="text" name="search" placeholder="Search title or author…" value="<%= filters.search || '' %>">
+    <select name="genre">
+      <option value="">All Genres</option>
+      <% genres.forEach(g => { %>
+        <option value="<%= g.slug %>" <%= filters.genre === g.slug ? 'selected' : '' %>>
+          <%= g.name %>
+        </option>
+      <% }) %>
+    </select>
+    <select name="status">
+      <option value="">All Statuses</option>
+      <option value="ongoing"   <%= filters.status === 'ongoing'   ? 'selected' : '' %>>Ongoing</option>
+      <option value="completed" <%= filters.status === 'completed' ? 'selected' : '' %>>Completed</option>
+      <option value="hiatus"    <%= filters.status === 'hiatus'    ? 'selected' : '' %>>Hiatus</option>
+    </select>
+    <button type="submit" class="btn btn--primary btn--md">Search</button>
+    <% if (filters.search || filters.genre || filters.status) { %>
+      <a href="/" class="btn btn--ghost btn--md">Reset</a>
+    <% } %>
+  </form>
+
+  <% if (novels.length === 0) { %>
+    <p style="margin-top:3rem; text-align:center; color:var(--ink-muted); font-family:var(--ff-ui)">
+      No novels found.
+    </p>
+  <% } else { %>
+  <div class="novels-grid">
+    <% novels.forEach(novel => { %>
+    <a href="/novels/<%= novel.slug %>" style="text-decoration:none">
+      <div class="novel-card">
+        <div class="novel-card__cover">
+          <% if (novel.cover_image) { %>
+            <img src="<%= novel.cover_image %>" alt="Cover <%= novel.title %>">
+          <% } else { %>
+            📖
+          <% } %>
+        </div>
+        <div class="novel-card__body">
+          <div class="novel-card__title"><%= novel.title %></div>
+          <div class="novel-card__author">by <%= novel.author_name %></div>
+          <div class="novel-card__meta">
+            <span class="badge badge--<%= novel.status %>">
+              <%= novel.status === 'ongoing' ? 'Ongoing' : novel.status === 'completed' ? 'Completed' : 'Hiatus' %>
+            </span>
+            <% if (parseFloat(novel.avg_rating) > 0) { %>
+              <span class="stars">★ <%= novel.avg_rating %></span>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </a>
+    <% }) %>
+  </div>
+  <% } %>
+</div>

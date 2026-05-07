@@ -1,0 +1,119 @@
+<div class="container">
+  <div class="novel-detail">
+    <div>
+      <div class="novel-detail__cover">
+        <% if (novel.cover_image) { %>
+          <img src="<%= novel.cover_image %>" alt="Cover <%= novel.title %>">
+        <% } else { %>
+          📖
+        <% } %>
+      </div>
+    </div>
+
+    <div class="novel-detail__meta">
+      <div>
+        <h1><%= novel.title %></h1>
+        <p style="font-family:var(--ff-ui); font-size:0.9rem; color:var(--ink-muted); margin-top:0.4rem">
+          Written by <strong><%= novel.author_name %></strong>
+        </p>
+      </div>
+
+      <div class="novel-detail__stats">
+        <span>👁 <%= novel.view_count.toLocaleString('en') %> reads</span>
+        <% if (parseFloat(novel.avg_rating) > 0) { %>
+          <span class="stars">★ <%= novel.avg_rating %> (<%= novel.rating_count %> reviews)</span>
+        <% } %>
+      </div>
+
+      <div class="novel-detail__genres">
+        <span class="badge badge--<%= novel.status %>">
+          <%= novel.status === 'ongoing' ? 'Ongoing' : novel.status === 'completed' ? 'Completed' : 'Hiatus' %>
+        </span>
+        <% genres.forEach(g => { %>
+          <a href="/?genre=<%= g.slug %>" class="genre-tag"><%= g.name %></a>
+        <% }) %>
+      </div>
+
+      <div class="novel-detail__actions">
+        <% if (chapters.length > 0) { %>
+          <% if (progress) { %>
+            <a href="/chapters/<%= chapters.find(c => c.chapter_number == progress.chapter_number)?.id || chapters[0].id %>"
+               class="btn btn--primary btn--md">
+              Continue Chapter <%= progress.chapter_number %>
+            </a>
+          <% } else { %>
+            <a href="/chapters/<%= chapters[0].id %>" class="btn btn--primary btn--md">
+              Start Reading
+            </a>
+          <% } %>
+        <% } %>
+
+        <% if (currentUser) { %>
+          <button id="bookmark-btn"
+                  data-novel-id="<%= novel.id %>"
+                  data-bookmarked="<%= isBookmarked %>"
+                  class="btn btn--md <%= isBookmarked ? 'btn--primary' : 'btn--ghost' %>">
+            <%= isBookmarked ? '★ Saved' : '☆ Save' %>
+          </button>
+        <% } %>
+      </div>
+
+      <div>
+        <div class="section-heading">Synopsis</div>
+        <p class="novel-detail__synopsis"><%= novel.synopsis %></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-heading">Chapter List (<%= chapters.length %>)</div>
+  <% if (chapters.length === 0) { %>
+    <p style="color:var(--ink-muted); font-family:var(--ff-ui)">No chapters published yet.</p>
+  <% } else { %>
+    <div class="chapter-list">
+      <% chapters.forEach(ch => { %>
+        <div class="chapter-list__item">
+          <a href="/chapters/<%= ch.id %>">
+            Chapter <%= ch.chapter_number %> – <%= ch.title %>
+          </a>
+          <span class="chapter-list__date">
+            <%= new Date(ch.created_at).toLocaleDateString('en-US', { day:'numeric', month:'short', year:'numeric' }) %>
+          </span>
+        </div>
+      <% }) %>
+    </div>
+  <% } %>
+
+  <div class="section-heading">Ratings & Reviews</div>
+  <% if (currentUser) { %>
+    <form action="/ratings" method="POST" style="background:var(--paper-2); padding:1.25rem; border-radius:var(--radius); border:1px solid var(--border); margin-bottom:1.5rem">
+      <input type="hidden" name="novelId" value="<%= novel.id %>">
+      <div class="form-group">
+        <label>Rate this novel</label>
+        <div class="star-rating" style="flex-direction:row-reverse; justify-content:flex-end">
+          <% for(let i=5; i>=1; i--) { %>
+            <input type="radio" name="score" id="star<%= i %>" value="<%= i %>"
+                   <%= userRating && userRating.score == i ? 'checked' : '' %>>
+            <label for="star<%= i %>">★</label>
+          <% } %>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="review">Review (optional)</label>
+        <textarea id="review" name="review" placeholder="Write your thoughts…"><%= userRating?.review || '' %></textarea>
+      </div>
+      <button type="submit" class="btn btn--primary btn--md">
+        <%= userRating ? 'Update Review' : 'Submit Review' %>
+      </button>
+    </form>
+  <% } %>
+
+  <% reviews.forEach(r => { %>
+    <div class="comment">
+      <div class="comment__header">
+        <span class="comment__author"><%= r.username %></span>
+        <span class="stars"><%='★'.repeat(r.score) %><%='☆'.repeat(5-r.score) %></span>
+      </div>
+      <% if (r.review) { %><p><%= r.review %></p><% } %>
+    </div>
+  <% }) %>
+</div>

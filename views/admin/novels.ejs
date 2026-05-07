@@ -1,0 +1,47 @@
+<div class="admin-layout">
+  <aside class="admin-sidebar">
+    <div style="font-family:var(--ff-display); font-size:1.1rem; color:#fff; padding:0.5rem 0.85rem; margin-bottom:0.5rem">Admin Panel</div>
+    <a href="/admin">Dashboard</a>
+    <a href="/admin/novels" class="active">Novels</a>
+    <a href="/admin/users">Users</a>
+    <a href="/" style="margin-top:auto">← Back to Site</a>
+  </aside>
+  <div class="admin-content">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem">
+      <h2>Manage Novels</h2>
+      <a href="/admin/novels/new" class="btn btn--primary btn--md">+ Add Novel</a>
+    </div>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Author</th>
+          <th>Status</th>
+          <th>Published</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% novels.forEach(n => { %>
+        <tr>
+          <td><a href="/novels/<%= n.slug %>"><%= n.title %></a></td>
+          <td style="color:var(--ink-muted)"><%= n.author_name %></td>
+          <td><span class="badge badge--<%= n.status %>"><%= n.status %></span></td>
+          <td>
+            <form action="/admin/novels/<%= n.id %>/toggle-publish?_method=POST" method="POST" style="display:inline">
+              <button type="submit" class="btn btn--sm <%= n.is_published ? 'btn--danger' : 'btn--secondary' %>"
+                      data-confirm="<%= n.is_published ? 'Unpublish this novel?' : 'Publish this novel?' %>">
+                <%= n.is_published ? 'Unpublish' : 'Publish' %>
+              </button>
+            </form>
+          </td>
+          <td>
+            <a href="/admin/novels/<%= n.id %>/chapters" class="btn btn--sm btn--ghost">Chapters</a>
+          </td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>

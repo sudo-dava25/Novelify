@@ -1,0 +1,31 @@
+<div class="admin-layout">
+  <aside class="admin-sidebar">
+    <div style="font-family:var(--ff-display); font-size:1.1rem; color:#fff; padding:0.5rem 0.85rem; margin-bottom:0.5rem">Admin Panel</div>
+    <a href="/admin" class="active">Dashboard</a>
+    <a href="/admin/novels">Novels</a>
+    <a href="/admin/users">Users</a>
+    <a href="/" style="margin-top:auto">← Back to Site</a>
+  </aside>
+  <div class="admin-content">
+    <h2 style="margin-bottom:1.5rem">Dashboard</h2>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-card__num"><%= stats.novels %></div>
+        <div class="stat-card__label">Total Novels</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card__num"><%= stats.chapters %></div>
+        <div class="stat-card__label">Total Chapters</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card__num"><%= stats.users %></div>
+        <div class="stat-card__label">Users</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card__num"><%= stats.comments %></div>
+        <div class="stat-card__label">Comments</div>
+      </div>
+    </div>
+    <p style="font-family:var(--ff-ui); color:var(--ink-muted)">Select a menu item on the left to manage content.</p>
+  </div>
+</div>

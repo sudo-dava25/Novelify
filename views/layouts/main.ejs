@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %> – Novelify</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lora:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="/" class="navbar__brand">Novelify</a>
+  <div class="navbar__links">
+    <a href="/">Explore</a>
+    <% if (currentUser) { %>
+      <a href="/user/profile">Profile</a>
+      <% if (currentUser.role === 'admin') { %>
+        <a href="/admin">Admin</a>
+      <% } %>
+      <form action="/auth/logout" method="POST" style="display:inline">
+        <button type="submit" class="btn-link">Sign Out</button>
+      </form>
+    <% } else { %>
+      <a href="/auth/login">Sign In</a>
+      <a href="/auth/register" class="btn btn--primary btn--sm">Register</a>
+    <% } %>
+  </div>
+</nav>
+
+<% if (flash.success && flash.success.length) { %>
+  <div class="flash flash--success"><%= flash.success[0] %></div>
+<% } %>
+<% if (flash.error && flash.error.length) { %>
+  <div class="flash flash--error"><%= flash.error[0] %></div>
+<% } %>
+
+<main>
+  <%- body %>
+</main>
+
+<footer class="footer">
+  <p>&copy; <%= new Date().getFullYear() %> Novelify. Made with ❤</p>
+</footer>
+
+<script src="/js/main.js"></script>
+</body>
+</html>

@@ -121,4 +121,3 @@ Novelify/
 3. Add comment reply feature (`parent_id` is already available in the schema)
 4. Add rate limiting with `express-rate-limit` for the login endpoint
 5. Deploy with PM2 + Nginx + HTTPS
-6. 
